@@ -9,7 +9,10 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:5000", {
+    // Remove '/api' from the API URL for socket connection
+    const SOCKET_URL = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000';
+    
+    const newSocket = io(SOCKET_URL, {
       autoConnect: false,
     });
 

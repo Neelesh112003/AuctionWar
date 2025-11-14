@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import usePageTitle from "../hooks/usePageTitle";
+import api from "../services/api";
 
 const InputField = ({
   label,
@@ -119,18 +120,15 @@ const CreateAuction = () => {
       data.append("end_time", formData.endDate);
       if (imageFile) data.append("image", imageFile);
 
-      const response = await fetch("http://localhost:5000/api/auctions", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: data,
-      });
+      const response = await api.post("/auctions", data, {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to create auction.");
-      }
+if (response.status !== 200 && response.status !== 201) {
+  throw new Error(response.data.message || "Failed to create auction.");
+}
 
       setMessageType("success");
       setMessage("Auction created successfully!");

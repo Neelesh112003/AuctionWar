@@ -16,7 +16,7 @@ const AuctionCard = ({ auction }) => {
     auction.image_url.toLowerCase() !== "null" &&
     auction.image_url.toLowerCase() !== "undefined"
   ) {
-    imgUrl = `http://localhost:5000/uploads/${auction.image_url}`;
+    imgUrl = `${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000'}/uploads/${auction.image_url}`;
   } else if (auction.image_url && auction.image_url.startsWith("http")) {
     imgUrl = auction.image_url;
   }

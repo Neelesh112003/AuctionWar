@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AuctionCard from "../components/auction/AuctionCard";
 import usePageTitle from "../hooks/usePageTitle";
+import api from "../services/api";
 
 const Auctions = () => {
   const [auctions, setAuctions] = useState([]);
@@ -12,7 +13,7 @@ const Auctions = () => {
     
     const fetchAuctions = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/auctions");
+        const res = await api.get("/auctions");
         setAuctions(res.data.data || []);
         setLoading(false);
       } catch (err) {
