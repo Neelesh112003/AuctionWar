@@ -20,12 +20,19 @@ const { setupSocketHandlers } = require('./socket/socketHandlers');
 // Import auction scheduler
 const { startAuctionScheduler } = require('./utils/auctionScheduler');
 
+// Allowed origins for CORS
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://auction-war.vercel.app'
+];
+
 // Initialize app
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:5173", // Vite default port
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -33,7 +40,7 @@ const io = socketIo(server, {
 
 // Middleware
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json());
